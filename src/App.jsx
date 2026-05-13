@@ -1,14 +1,26 @@
 import React from 'react'
+import {
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider
+} from 'react-router-dom'
+import MainLayout from './layout/MainLayout'
+import CommentPage from './pages/CommentPage'
+
 
 const App = () => {
+
+    const router = createBrowserRouter(
+      createRoutesFromElements(
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<CommentPage />} />
+        </Route>
+      )
+    )
+
   return (
-   <main className='p-6 flex flex-col items-center space-y-8'>
-      <section className='grid grid-cols-2 grid-rows-2 md:grid-cols-3'>
-          <div className='col-start-1 col-span-2 md:col-start-2 md:row-start-1 md:row-span-2'>A</div>
-          <div className='md:col-start-1'>B</div>
-          <div className='md:col-start-3 md:row-start-1'>C</div>
-      </section>
-   </main>
+    <RouterProvider router={router} />
   )
 }
 
