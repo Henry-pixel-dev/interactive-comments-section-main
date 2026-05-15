@@ -1,4 +1,6 @@
 import React from 'react'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import CommentCardLayout from '../layout/CommentCardLayout'
 import plusIcon from '../assets/icon-plus.svg'
 import minusIcon from '../assets/icon-minus.svg'
@@ -6,8 +8,11 @@ import replyIcon from '../assets/icon-reply.svg'
 
 
 const CommentCard = ({comment}) => {
+  dayjs.extend(relativeTime)
+
+
   return (
-      <CommentCardLayout className='bg-white grid grid-cols-[auto_auto] md:grid-cols-[auto_auto_auto] gap-8 p-6 rounded-md '>
+      <CommentCardLayout>
             <div className=' col-start-1 col-span-2 md:col-start-2 md:row-start-1 md:row-span-2 flex flex-col space-y-4  '>
               <div className='flex flex-row space-x-3 items-center'>
                 <img src={comment.user.image.png} alt={comment.user.username} className='w-10 h-10'/>
@@ -16,7 +21,7 @@ const CommentCard = ({comment}) => {
                   {comment.user.username}
                 </h2>
                 <p className='text-grey-500'>
-                  {comment.createdAt}
+                  {dayjs(comment.createdAt).fromNow()}
                 </p>
               </div>
               <p className=' text-grey-500'>

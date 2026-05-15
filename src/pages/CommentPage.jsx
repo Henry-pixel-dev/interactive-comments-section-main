@@ -14,8 +14,8 @@ useEffect(() => {
   const fetchData = async () => {
     try {
       const [commentsRes, userRes] = await Promise.all([
-        fetch('http://localhost:8000/comments'),
-        fetch('http://localhost:8000/currentUser')
+        fetch('/api/comments'),
+        fetch('/api/currentUser')
       ]);
 
       const commentsData = await commentsRes.json();
@@ -33,6 +33,19 @@ useEffect(() => {
   fetchData();
 }, []);
 
+  const addComment = async (newComment) => {
+    const res = await fetch('/api/comments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newComment)
+    });
+    const savedComment = await res.json();
+    setComments([...comments, savedComment])
+  }
+  
+
 
   return (
     <CommentMainLayout>
@@ -48,9 +61,10 @@ useEffect(() => {
           )}
         </div>
       ))}
-      {currentUser && <InputComment user={currentUser} />}
+      {currentUser && <InputComment user={currentUser} addCommentSubmit={addComment}/>}
     </CommentMainLayout>
   )
+  
 }
 
 export default CommentPage
