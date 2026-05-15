@@ -35,40 +35,40 @@ useEffect(() => {
   fetchData();
 }, []);
 
-  const addComment = async (newComment) => {
-    if (activeReplyId === null) {
-      const res = await fetch('/api/comments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newComment)
-      });
-      const savedComment = await res.json();
-      setComments([...comments, savedComment])
+const addComment = async (newComment) => {
+  if (activeReplyId === null) {
+    const res = await fetch('/api/comments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newComment)
+    });
+    const savedComment = await res.json();
+    setComments([...comments, savedComment])
 
-    } else {
-      // step 1 - GET the comment
-      const res = await fetch(`/api/comments/${activeReplyId}`)
-      const existingComment = await res.json()
+  } else {
+    // step 1 - GET the comment
+    const res = await fetch(`/api/comments/${activeReplyId}`)
+    const existingComment = await res.json()
 
-      // step 2 - push new reply into replies array
-      const updatedComment = {
-        ...existingComment,
-        replies: [...existingComment.replies, newComment]
-      }
-
-      // step 3 - PUT the updated comment back
-      const putRes = await fetch(`/api/comments/${activeReplyId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedComment)
-      })
-      const savedComment = await putRes.json()
-
-      // step 4 - update state
-      setComments(comments.map(c => c.id === activeReplyId ? savedComment : c))
-      setActiveReplyId(null)
+    // step 2 - push new reply into replies array
+    const updatedComment = {
+      ...existingComment,
+      replies: [...existingComment.replies, newComment]
     }
+
+    // step 3 - PUT the updated comment back
+    const putRes = await fetch(`/api/comments/${activeReplyId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedComment)
+    })
+    const savedComment = await putRes.json()
+
+    // step 4 - update state
+    setComments(comments.map(c => c.id === activeReplyId ? savedComment : c))
+    setActiveReplyId(null)
   }
+}
 
   
 
@@ -81,11 +81,21 @@ useEffect(() => {
   
 
 
+  const handleUpdateScore = async (updatedComment) => {
+    const res = await fetch(`/api/comments/${updatedComment.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedComment)
+    })
+    const saved = await res.json()
+    setComments(comments.map(c => c.id === saved.id ? saved : c))
+  }
+
   return (
     <CommentMainLayout>
       {comments.map((comment) => (
         <div key={comment.id}>
-          <CommentCard comment={comment} onReplyClick={handleReplyClick}/>
+          <CommentCard comment={comment} onReplyClick={handleReplyClick} updateScore={handleUpdateScore}/>
           {comment.replies.length > 0 && (
             <ReplyLayout>
               {comment.replies.map((reply) => (
