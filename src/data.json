@@ -19,7 +19,22 @@
         },
         "username": "amyrobson"
       },
-      "replies": []
+      "replies": [
+        {
+          "id": 1778857513374,
+          "content": "henry, saying that Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
+          "createdAt": "2026-05-15T15:05:13.374Z",
+          "score": 0,
+          "user": {
+            "image": {
+              "png": "/images/avatars/image-juliusomo.png",
+              "webp": "/images/avatars/image-juliusomo.webp"
+            },
+            "username": "juliusomo"
+          },
+          "replies": []
+        }
+      ]
     },
     {
       "id": "2",
@@ -76,7 +91,22 @@
         },
         "username": "juliusomo"
       },
-      "replies": []
+      "replies": [
+        {
+          "id": 1778857538022,
+          "content": "i am replying to this content Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
+          "createdAt": "2026-05-15T15:05:38.022Z",
+          "score": 0,
+          "user": {
+            "image": {
+              "png": "/images/avatars/image-juliusomo.png",
+              "webp": "/images/avatars/image-juliusomo.webp"
+            },
+            "username": "juliusomo"
+          },
+          "replies": []
+        }
+      ]
     },
     {
       "id": "VULFM4OYD4Q",

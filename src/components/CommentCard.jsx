@@ -1,13 +1,14 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { useState } from 'react'
 import CommentCardLayout from '../layout/CommentCardLayout'
 import plusIcon from '../assets/icon-plus.svg'
 import minusIcon from '../assets/icon-minus.svg'
 import replyIcon from '../assets/icon-reply.svg'
 
 
-const CommentCard = ({comment}) => {
+const CommentCard = ({comment, onReplyClick}) => {
   dayjs.extend(relativeTime)
 
 
@@ -24,7 +25,7 @@ const CommentCard = ({comment}) => {
                   {dayjs(comment.createdAt).fromNow()}
                 </p>
               </div>
-              <p className=' text-grey-500'>
+              <p className=' text-grey-500 md:w-4xl'>
                 {comment.content}
               </p>
             </div>
@@ -38,12 +39,14 @@ const CommentCard = ({comment}) => {
               </div>
             </div>
             <div className=' md:col-start-3 md:row-start-1'>
-              <div className='flex space-x-3 text-purple-600 items-center justify-end md:justify-start'>
+              <button className='flex space-x-3 text-purple-600 items-center justify-end md:justify-start'
+              onClick={() => onReplyClick(comment.id)}
+              >
                   <img src={replyIcon} alt="" className='w-3 h-3' />
                   <p className='font-bold'>
                     Reply
                   </p>
-              </div>
+              </button>
             </div>
         </CommentCardLayout>
   )
