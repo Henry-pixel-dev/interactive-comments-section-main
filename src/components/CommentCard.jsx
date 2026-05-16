@@ -9,7 +9,7 @@ import replyIcon from '../assets/icon-reply.svg'
 import {increaseScore, decreaseScore} from '../utils/CommentUtils'
 
 
-const CommentCard = ({comment, onReplyClick, updateScore}) => {
+const CommentCard = ({comment, onReplyClick, updateScore, parentId}) => {
   dayjs.extend(relativeTime)
 
 
@@ -33,13 +33,13 @@ const CommentCard = ({comment, onReplyClick, updateScore}) => {
             </div>
             <div className=' md:col-start-1 '>
               <div className='flex flex-row space-x-3 items-center md:flex-col md:space-x-0 md:space-y-3'>
-                <button className='cursor-pointer' onClick={() => updateScore(increaseScore(comment))}>
+                <button className='cursor-pointer' onClick={() => updateScore(increaseScore(comment), parentId)}>
                   <img src={plusIcon} alt="" />
                 </button>
                 <p className='text-purple-600 font-bold'>
                   {comment.score}
                 </p>
-                <button className='cursor-pointer' onClick={() => updateScore(decreaseScore(comment))}>
+                <button className='cursor-pointer' onClick={() => updateScore(decreaseScore(comment), parentId)}>
                   <img src={minusIcon} alt="minus" />
                 </button>
               </div>

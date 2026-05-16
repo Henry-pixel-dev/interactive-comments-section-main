@@ -91,6 +91,31 @@ const addComment = async (newComment) => {
     setComments(comments.map(c => c.id === saved.id ? saved : c))
   }
 
+  const handleReplyScoreUpdate = async (updatedReply, parentId) => {
+    // Step 1 - GET the parent comment
+    const res = await fetch(`/api/comments/${parentId}`)
+    const parentComment = await res.json()
+
+    // Step 2 - find the reply and update its score
+    const updatedReplies = parentComment.replies.map(r => 
+      r.id === updatedReply.id ? updatedReply : r
+    )
+
+    // Step 3 - build the updated parent
+    const updatedParent = { ...parentComment, replies: updatedReplies }
+
+    // Step 4 - PUT it back
+    const putRes = await fetch(`/api/comments/${parentId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedParent)
+    })
+    const saved = await putRes.json()
+
+    // Step 5 - update state
+    setComments(comments.map(c => c.id === parentId ? saved : c))
+  }
+
   return (
     <CommentMainLayout>
       {comments.map((comment) => (
@@ -99,7 +124,8 @@ const addComment = async (newComment) => {
           {comment.replies.length > 0 && (
             <ReplyLayout>
               {comment.replies.map((reply) => (
-                <CommentCard key={reply.id} comment={reply} />
+                <CommentCard key={reply.id} comment={reply}     updateScore={handleReplyScoreUpdate}
+                parentId={comment.id}/>
               ))}
             </ReplyLayout>
           )}
