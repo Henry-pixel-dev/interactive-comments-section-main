@@ -15,6 +15,7 @@ const CommentCard = ({comment, onReplyClick, updateScore, parentId, isReply}) =>
   const width = isReply  ? 'w-5xl' : 'w-4xl';
   const cardWidth = isReply ? 'w-4xl' : 'w-3xl'
 
+
   
 
 
@@ -33,6 +34,9 @@ const CommentCard = ({comment, onReplyClick, updateScore, parentId, isReply}) =>
                 </p>
               </div>
               <p className={`${cardWidth} text-grey-500 `}>
+                {isReply ? '' : (
+                  <span className='text-purple-600 font-bold'>@{comment.replyingTo} </span>
+                )}
                 {comment.content}
               </p>
             </div>
