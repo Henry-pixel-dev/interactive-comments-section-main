@@ -8,20 +8,27 @@ const InputComent = ({ user, addCommentSubmit, textareaRef, activeReplyId }) => 
 
     const submitForm = (e) => {
         e.preventDefault()
-        
-         const newComment = {
-            id: Date.now(),
-            content: comment,
-            createdAt: new Date().toISOString(),
-            score: 0,
-            user: user,
-            replies: []
-        }
+        if (activeReplyId === null) {
+            const newComment = {
+                id: Date.now(),
+                content: comment,
+                createdAt: new Date().toISOString(),
+                score: 0,
+                user: user,
+                replies: []
+            }
 
-        addCommentSubmit(newComment)
-        
-        
-    }
+            addCommentSubmit(newComment)
+        } else {
+            const newReply = {
+                id: Date.now(),
+                content: comment,
+                createdAt: new Date().toISOString(),
+                score: 0,
+                user: user,
+            }
+            addCommentSubmit(newReply)
+         }
 
   return (
     <form onSubmit={submitForm} className='bg-white w-full grid grid-cols-[auto_auto] md:flex md:flex-row md:justify-between md:items-start gap-4 md:space-y-0 md:space-x-4 p-6 rounded-md'>
@@ -44,5 +51,5 @@ const InputComent = ({ user, addCommentSubmit, textareaRef, activeReplyId }) => 
     </form>
   )
 }
-
+}
 export default InputComent

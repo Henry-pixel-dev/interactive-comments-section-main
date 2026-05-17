@@ -9,13 +9,18 @@ import replyIcon from '../assets/icon-reply.svg'
 import {increaseScore, decreaseScore} from '../utils/CommentUtils'
 
 
-const CommentCard = ({comment, onReplyClick, updateScore, parentId}) => {
+const CommentCard = ({comment, onReplyClick, updateScore, parentId, isReply}) => {
   dayjs.extend(relativeTime)
+
+  const width = isReply  ? 'w-5xl' : 'w-4xl';
+  const cardWidth = isReply ? 'w-4xl' : 'w-3xl'
+
+  
 
 
 
   return (
-      <CommentCardLayout>
+      <CommentCardLayout width={width}>
             <div className=' col-start-1 col-span-2 md:col-start-2 md:row-start-1 md:row-span-2 flex flex-col space-y-4  '>
               <div className='flex flex-row space-x-3 items-center'>
                 <img src={comment.user.image.png} alt={comment.user.username} className='w-10 h-10'/>
@@ -27,7 +32,7 @@ const CommentCard = ({comment, onReplyClick, updateScore, parentId}) => {
                   {dayjs(comment.createdAt).fromNow()}
                 </p>
               </div>
-              <p className=' text-grey-500 md:w-4xl'>
+              <p className={`${cardWidth} text-grey-500 `}>
                 {comment.content}
               </p>
             </div>

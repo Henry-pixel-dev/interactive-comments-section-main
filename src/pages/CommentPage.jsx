@@ -120,12 +120,12 @@ const addComment = async (newComment) => {
     <CommentMainLayout>
       {comments.map((comment) => (
         <div key={comment.id}>
-          <CommentCard comment={comment} onReplyClick={handleReplyClick} updateScore={handleUpdateScore}/>
+          <CommentCard comment={comment} onReplyClick={handleReplyClick} updateScore={handleUpdateScore} isReply={true}/>
           {comment.replies.length > 0 && (
             <ReplyLayout>
               {comment.replies.map((reply) => (
                 <CommentCard key={reply.id} comment={reply}     updateScore={handleReplyScoreUpdate}
-                parentId={comment.id}/>
+                parentId={comment.id} isReply={false}/>
               ))}
             </ReplyLayout>
           )}
