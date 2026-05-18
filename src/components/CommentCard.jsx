@@ -7,14 +7,15 @@ import plusIcon from '../assets/icon-plus.svg'
 import minusIcon from '../assets/icon-minus.svg'
 import replyIcon from '../assets/icon-reply.svg'
 import {increaseScore, decreaseScore} from '../utils/CommentUtils'
+import ButtonComponent from './ButtonComponent'
 
 
-const CommentCard = ({comment, onReplyClick, updateScore, parentId, isReply}) => {
+const CommentCard = ({comment, onReplyClick, updateScore, parentId, isReply, currentUser, handleDeleteClick, handleEditClick}) => {
   dayjs.extend(relativeTime)
 
-  const width = isReply  ? 'w-5xl' : 'w-4xl';
-  const cardWidth = isReply ? 'w-4xl' : 'w-3xl'
-
+  const width = isReply  ?'w-4xl'  : 'w-5xl';
+  const cardWidth = isReply ? 'w-3xl' : 'w-4xl'
+  const isOwner = currentUser?.username === comment.user.username
 
   
 
@@ -34,7 +35,7 @@ const CommentCard = ({comment, onReplyClick, updateScore, parentId, isReply}) =>
                 </p>
               </div>
               <p className={`${cardWidth} text-grey-500 `}>
-                {isReply ? '' : (
+                {!isReply ? '' : (
                   <span className='text-purple-600 font-bold'>@{comment.replyingTo} </span>
                 )}
                 {comment.content}
@@ -54,14 +55,14 @@ const CommentCard = ({comment, onReplyClick, updateScore, parentId, isReply}) =>
               </div>
             </div>
             <div className=' md:col-start-3 md:row-start-1'>
-              <button className='flex space-x-3 text-purple-600 items-center justify-end md:justify-start'
+              {isOwner ? <ButtonComponent handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick}/> : <button className='flex space-x-3 text-purple-600 items-center justify-end md:justify-start'
               onClick={() => onReplyClick(comment.id)}
               >
                   <img src={replyIcon} alt="" className='w-3 h-3' />
                   <p className='font-bold'>
                     Reply
                   </p>
-              </button>
+              </button> }
             </div>
         </CommentCardLayout>
   )

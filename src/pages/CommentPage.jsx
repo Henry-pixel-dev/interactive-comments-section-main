@@ -71,9 +71,9 @@ const addComment = async (newComment) => {
 }
 
   
-
+  // we are going to remove this function and replace it with not textarea focus but on click it will set the activeReplyId and then we will use that id as a bollean to import an input area under the replyLayout and then on submitting we will get and use the logic we are using before 
   const handleReplyClick = (id) => {
-    textareaRef.current.focus()
+    // textareaRef.current.focus()
     setActiveReplyId(id)
     console.log(id)
     // also store the id of the comment being replied to
@@ -116,22 +116,37 @@ const addComment = async (newComment) => {
     setComments(comments.map(c => c.id === parentId ? saved : c))
   }
 
+  const handleDeleteClick = (id) => {
+    // we are going to make a delete request to the server and then update the state by filtering out the deleted comment
+  }
+
+  const handleEditClick = (id) => {
+    // we are going to make a put request to the server with the updated comment and then update the state by mapping through the comments and replacing the old comment with the updated one
+  }
+
+
+ console.log('currentUser:', currentUser) 
   return (
+    
     <CommentMainLayout>
       {comments.map((comment) => (
         <div key={comment.id}>
-          <CommentCard comment={comment} onReplyClick={handleReplyClick} updateScore={handleUpdateScore} isReply={true}/>
+          <CommentCard comment={comment} onReplyClick={handleReplyClick} updateScore={handleUpdateScore} isReply={false} currentUser={currentUser} handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick}/>
+          {activeReplyId === comment.id && <InputComment user={currentUser} addCommentSubmit={addComment} textareaRef={textareaRef} activeReplyId={activeReplyId} />}
           {comment.replies.length > 0 && (
             <ReplyLayout>
               {comment.replies.map((reply) => (
-                <CommentCard key={reply.id} comment={reply}     updateScore={handleReplyScoreUpdate}
-                parentId={comment.id} isReply={false}/>
+                <div key={reply.id}>
+                  <CommentCard key={reply.id} comment={reply} updateScore={handleReplyScoreUpdate} parentId={comment.id} isReply={true} currentUser={currentUser} handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick}/>
+                  {activeReplyId === reply.id && <InputComment user={currentUser} addCommentSubmit={addComment} textareaRef={textareaRef} activeReplyId={activeReplyId}/>}
+                </div>
               ))}
             </ReplyLayout>
           )}
         </div>
       ))}
       {currentUser && <InputComment user={currentUser} addCommentSubmit={addComment} textareaRef={textareaRef} activeReplyId={activeReplyId}/>}
+      {/* we are going to remove the textareaRef  also with the activeReplyId */}
     </CommentMainLayout>
   )
   
